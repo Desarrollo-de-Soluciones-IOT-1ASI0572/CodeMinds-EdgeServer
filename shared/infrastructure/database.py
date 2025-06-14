@@ -1,8 +1,24 @@
+"""
+Database initialization for Edugo Edge Service.
+
+Sets up the SQLite database and creates required tables for devices.
+"""
+
 from peewee import SqliteDatabase
 
-db = SqliteDatabase('rfid_events.db')  # Ruta relativa o absoluta
+# Initialize SQLite database
+db = SqliteDatabase('edugo_edge.db')
 
-def init_db():
-    from iam.infrastructure.models import RFIDEventModel
-    db.connect()
-    db.create_tables([RFIDEventModel], safe=True)
+def init_db() -> None:
+    """
+    Initialize the database and create tables for Device model.
+    """
+    if db.is_closed():
+        db.connect()
+
+    # Existence check for Device model
+    from iam.infrastructure.models import Device
+
+    db.create_tables([Device], safe=True)
+
+    db.close()
