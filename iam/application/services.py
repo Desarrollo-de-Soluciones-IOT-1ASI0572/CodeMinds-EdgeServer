@@ -25,3 +25,7 @@ class AuthApplicationService:
             student_name=student_name
         )
         return device
+
+    def get_device_by_code_and_key(self, rfid_code: str, api_key: str):
+        return Device.get_or_none(Device.rfid_code == rfid_code, Device.api_key == api_key)
+
