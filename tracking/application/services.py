@@ -13,3 +13,6 @@ class TrackingRecordApplicationService:
         """Create and persist a tracking record."""
         record = self.tracking_service.create_record(device_id, latitude, longitude, created_at)
         return self.tracking_repository.save(record)
+
+    def get_all_locations(self) -> list[TrackingRecord]:
+            return self.tracking_repository.get_all()

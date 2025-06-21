@@ -36,3 +36,17 @@ def create_tracking():
         return jsonify({"error": "Missing required fields"}), 400
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
+
+@tracking_api.route('/api/v1/tracking', methods=['GET'])
+def get_locations():
+    locations = tracking_service.get_all_locations()
+    return jsonify([
+        {
+            'id': loc.id,
+            'device_id': loc.device_id,
+            'latitude': loc.latitude,
+            'longitude': loc.longitude,
+            'created_at': loc.created_at.isoformat() + "Z" if loc.created_at else None
+        }
+        for loc in locations
+    ])
