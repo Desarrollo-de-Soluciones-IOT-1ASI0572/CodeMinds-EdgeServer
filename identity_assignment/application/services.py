@@ -1,8 +1,25 @@
 import requests
 
-
 class ScanProcessingService:
     """Service for processing RFID scans at the Edge."""
+
+    def get_all_scans(self) -> list:
+        """Obtiene todos los registros de escaneos desde el backend.
+
+        Returns:
+            list: Una lista con todos los registros de escaneos.
+        """
+        try:
+            url = f"{self.base_url}/sensor-scans"
+            response = requests.get(url, headers=self.headers)
+            if response.status_code == 200:
+                return response.json()
+            else:
+                print(f"[GET] Error al obtener los escaneos. Estado: {response.status_code}")
+                return []
+        except Exception as e:
+            print(f"[GET] Excepción al obtener los escaneos: {e}")
+            return []
 
     def __init__(self):
         self.base_url = "http://localhost:8080/api/v1"

@@ -14,5 +14,7 @@ def setup():
         first_request = False
         init_db()
 
-if __name__ == "__main__":
-    app.run(debug=True)
+if __name__ == '__main__':
+    app.run(debug=True, port=5001)
+
+
