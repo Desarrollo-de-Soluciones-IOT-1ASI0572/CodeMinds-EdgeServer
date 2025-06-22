@@ -1,9 +1,8 @@
-import requests
 from flask import Blueprint, request, jsonify
 from identity_assignment.application.services import ScanProcessingService
 
 scan_api = Blueprint("scan_api", __name__)
-scan_service = ScanProcessingService()
+scan_service = ScanProcessingService(token="eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhc2Rhc2QxMjMiLCJpYXQiOjE3NTA1Njc2NTcsImV4cCI6MTc1MTE3MjQ1N30.76E_-F-bFd5513aAkCx355Vsvooq5ET3jxMPHvD7PpNuRAI6OF_GVsTHu049a-8y")  # Initialize with no token for simplicity
 
 @scan_api.route("/api/v1/sensor-scans/create", methods=["POST"])
 def process_scan():
@@ -24,22 +23,3 @@ def process_scan():
 
     except KeyError as e:
         return jsonify({"error": f"Missing required field: {str(e)}"}), 400
-
-#@scan_api.route("/api/v1/sensor-scans/<rfid_code>", methods=["GET"])
-#def get_scan(rfid_code):
-#    try:
-#        wristband_id = scan_service.get_wristband_id(rfid_code)
-#        if wristband_id:
-#            return jsonify({"wristbandId": wristband_id, "message": "Wristband found"}), 200
-#        else:
-#            return jsonify({"error": "Wristband not found"}), 404
-#    except Exception as e:
-#        return jsonify({"error": f"An error occurred: {str(e)}"}), 500
-
-@scan_api.route("/api/v1/sensor-scans", methods=["GET"])
-def get_all_scans():
-    try:
-        scans = scan_service.get_all_scans()
-        return jsonify(scans), 200
-    except Exception as e:
-        return jsonify({"error": f"An error occurred: {str(e)}"}), 500
