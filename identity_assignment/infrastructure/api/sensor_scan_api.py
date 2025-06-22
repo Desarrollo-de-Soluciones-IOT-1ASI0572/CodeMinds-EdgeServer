@@ -4,10 +4,9 @@ class SensorScanAPI:
     """Handles communication with the backend sensor scan endpoint."""
 
     def __init__(self):
-        self.endpoint_url = "http://localhost:8000/api/v1/sensor-scans/create"  # Cambia si usas otro host
+        self.endpoint_url = "http://localhost:8000/api/v1/sensor-scans/create"
         self.headers = {
             "Content-Type": "application/json"
-            # Puedes agregar aquí Authorization si usas JWT: "Authorization": "Bearer <token>"
         }
 
     def send_scan(self, scan_type: str, wristband_id: int) -> bool:
@@ -27,7 +26,7 @@ class SensorScanAPI:
 
         try:
             response = requests.post(self.endpoint_url, json=payload, headers=self.headers)
-            if response.status_code >= 200 and response.status_code < 300:
+            if 200 <= response.status_code < 300:
                 return True
             else:
                 print(f"[SensorScanAPI] Error {response.status_code}: {response.text}")

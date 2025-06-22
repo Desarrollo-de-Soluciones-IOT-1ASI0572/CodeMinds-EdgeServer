@@ -16,15 +16,16 @@ class StudentRepository:
             parent_profile_id=student.parent_profile_id,
             created_at=student.created_at
         )
+
         return Student(
-            student_model.name,
-            student_model.last_name,
-            student_model.home_address,
-            student_model.school_address,
-            student_model.student_photo_url,
-            student_model.parent_profile_id,
-            student_model.id,
-            student_model.created_at
+            name=student_model.name,
+            last_name=student_model.last_name,
+            home_address=student_model.home_address,
+            school_address=student_model.school_address,
+            student_photo_url=student_model.student_photo_url,
+            parent_profile_id=student_model.parent_profile_id,
+            id=student_model.id,
+            created_at=student_model.created_at
         )
 
 
@@ -40,25 +41,26 @@ class WristbandRepository:
             student=wristband.student_id,
             created_at=wristband.created_at
         )
+
         return Wristband(
-            wristband_model.rfid_code,
-            wristband_model.wristband_status,
-            wristband_model.student,
-            wristband_model.id,
-            wristband_model.created_at
+            rfid_code=wristband_model.rfid_code,
+            wristband_status=wristband_model.wristband_status,
+            student_id=wristband_model.student.id,
+            id=wristband_model.id,
+            created_at=wristband_model.created_at
         )
 
     @staticmethod
     def find_by_rfid_code(rfid_code: str) -> Wristband | None:
+        """Find a wristband by its RFID code."""
         try:
             wristband_model = WristbandModel.get(WristbandModel.rfid_code == rfid_code)
             return Wristband(
-                wristband_model.rfid_code,
-                wristband_model.wristband_status,
-                wristband_model.student.id,
-                wristband_model.id,
-                wristband_model.created_at
+                rfid_code=wristband_model.rfid_code,
+                wristband_status=wristband_model.wristband_status,
+                student_id=wristband_model.student.id,
+                id=wristband_model.id,
+                created_at=wristband_model.created_at
             )
         except WristbandModel.DoesNotExist:
             return None
-

@@ -1,4 +1,3 @@
-from iam.application.services import AuthApplicationService
 import requests
 
 
@@ -6,7 +5,6 @@ class ScanProcessingService:
     """Service for processing RFID scans at the Edge."""
 
     def __init__(self):
-        self.iam_service = AuthApplicationService()
         self.base_url = "http://localhost:8080/api/v1"
         self.headers = {"Content-Type": "application/json"}
 
@@ -61,21 +59,16 @@ class ScanProcessingService:
             print(f"[POST] Exception: {e}")
         return False
 
-    def process_scan(self, rfid_code: str, scan_type: str, api_key: str) -> bool:
+    def process_scan(self, rfid_code: str, scan_type: str) -> bool:
         """Main method to handle scan processing.
 
         Args:
             rfid_code (str): The RFID code scanned.
             scan_type (str): ENTRY or EXIT.
-            api_key (str): API key for authentication.
 
         Returns:
             bool: True if scan was successful, False otherwise.
         """
-        if not self.iam_service.validate_api_key(api_key):
-            print("[AUTH] Invalid API key.")
-            return False
-
         wristband_id = self.get_wristband_id(rfid_code)
         if wristband_id is None:
             print(f"[PROCESS] No valid wristband for RFID: {rfid_code}")

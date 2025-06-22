@@ -7,15 +7,14 @@ scan_service = ScanProcessingService()
 @scan_api.route("/api/v1/sensor-scans/create", methods=["POST"])
 def process_scan():
     if not request.is_json:
-        return jsonify({"error": "Request must be JSON"}), 415  # Explicit validation
+        return jsonify({"error": "Request must be JSON"}), 415
 
     data = request.get_json()
     try:
         rfid_code = data["rfidCode"]
         scan_type = data["scanType"]
-        api_key = request.headers.get("X-API-Key")
 
-        success = scan_service.process_scan(rfid_code, scan_type, api_key)
+        success = scan_service.process_scan(rfid_code, scan_type)
 
         if success:
             return jsonify({"message": "Scan registered successfully"}), 200
