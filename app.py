@@ -1,9 +1,9 @@
 from flask import Flask
+from identity_assignment.interfaces.services import scan_api
 from shared.infrastructure.database import init_db
-from iam.interfaces.services import iam_api
 
 app = Flask(__name__)
-app.register_blueprint(iam_api)
+app.register_blueprint(scan_api)
 
 first_request = True
 
