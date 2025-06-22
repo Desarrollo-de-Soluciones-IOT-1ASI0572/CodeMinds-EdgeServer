@@ -28,4 +28,8 @@ class AuthApplicationService:
 
     def get_device_by_code_and_key(self, rfid_code: str, api_key: str):
         return Device.get_or_none(Device.rfid_code == rfid_code, Device.api_key == api_key)
+    
+    def validate_api_key(self, api_key: str) -> bool:
+        """Valida si el api_key existe en algún dispositivo."""
+        return Device.select().where(Device.api_key == api_key).exists()
 
