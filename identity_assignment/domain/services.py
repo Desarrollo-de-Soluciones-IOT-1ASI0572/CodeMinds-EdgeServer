@@ -1,12 +1,12 @@
 from datetime import datetime
 from .entities import Student, Wristband
-from ..infrastructure.api.sensor_scan_api import SensorScanAPI
+from ..application.services import ScanProcessingService
 from ..infrastructure.repositories import StudentRepository, WristbandRepository
 
 class IdentityAssignmentService:
     """Service for managing student identity assignments and wristbands."""
 
-    def __init__(self, student_repository: StudentRepository, wristband_repository: WristbandRepository, sensor_scan_api: SensorScanAPI):
+    def __init__(self, student_repository: StudentRepository, wristband_repository: WristbandRepository, sensor_scan_api: ScanProcessingService):
         self.student_repository = student_repository
         self.wristband_repository = wristband_repository
         self.sensor_scan_api = sensor_scan_api
