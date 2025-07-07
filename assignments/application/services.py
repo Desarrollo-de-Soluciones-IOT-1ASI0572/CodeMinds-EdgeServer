@@ -1,7 +1,13 @@
 import requests
+from iam.application.services import AuthApplicationService
 
 class ScanProcessingService:
     """Service for processing RFID scans at the Edge."""
+
+    def authenticate_device(self, device_id: str, api_key: str):
+        """Authenticate device using IAM service."""
+        return self.auth_service.get_device_by_id_and_key(device_id, api_key)
+
 
     def get_all_scans(self) -> list:
         """Obtiene todos los registros de escaneos desde el backend.
@@ -22,12 +28,14 @@ class ScanProcessingService:
             return []
 
     def __init__(self, token=None):
+        self.auth_service = AuthApplicationService()
         self.base_url = "http://localhost:8080/api/v1"
         self.headers = {
             "Content-Type": "application/json"
         }
         if token:
             self.headers["Authorization"] = f"Bearer {token}"
+            
             
 
     def get_wristband_id(self, rfid_code: str) -> int | None:
@@ -70,7 +78,7 @@ class ScanProcessingService:
         }
 
         try:
-            url = f"{self.base_url}/sensor-scans/create"
+            url = f"{self.base_url}/sensor-scans"
             response = requests.post(url, json=payload, headers=self.headers)
             if response.status_code in range(200, 300):
                 print(f"[POST] Scan registered for wristband ID {wristband_id}")
@@ -81,7 +89,7 @@ class ScanProcessingService:
             print(f"[POST] Exception: {e}")
         return False
 
-    def process_scan(self, rfid_code: str, scan_type: str) -> bool:
+    def process_scan(self, device_id: str, rfid_code: str, scan_type: str, api_key: str) -> bool:
         """Main method to handle scan processing.
 
         Args:
@@ -91,6 +99,13 @@ class ScanProcessingService:
         Returns:
             bool: True if scan was successful, False otherwise.
         """
+
+        device = self.authenticate_device(device_id, api_key)
+        if not device:
+            raise ValueError("Invalid authentication credentials")
+        
+        print(f"[AUTH] Device authenticated: {device.device_id}")
+
         wristband_id = self.get_wristband_id(rfid_code)
         if wristband_id is None:
             print(f"[PROCESS] No valid wristband for RFID: {rfid_code}")

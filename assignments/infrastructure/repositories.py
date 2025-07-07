@@ -1,5 +1,5 @@
-from identity_assignment.domain.entities import Student, Wristband
-from identity_assignment.infrastructure.models import StudentModel, WristbandModel
+from assignments.domain.entities import Student, Wristband
+from assignments.infrastructure.models import StudentModel, WristbandModel
 
 class StudentRepository:
     """Repository for managing student persistence."""
