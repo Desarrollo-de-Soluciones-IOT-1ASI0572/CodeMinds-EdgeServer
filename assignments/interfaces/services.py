@@ -13,13 +13,12 @@ def process_scan():
     try:
         device_id = data["device_id"]
         rfid_code = data["rfid_code"]
-        scan_type = data["scanType"]
 
         api_key = request.headers.get("X-API-Key")
         if not api_key:
             return jsonify({"error": "API key is required"}), 401
 
-        success = scan_service.process_scan(device_id, rfid_code, scan_type, api_key)
+        success = scan_service.process_scan(device_id, rfid_code, api_key)
 
         if success:
             return jsonify({"message": "Scan registered successfully"}), 200

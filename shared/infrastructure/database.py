@@ -19,8 +19,10 @@ def init_db() -> None:
     # Existence check for Device model
     from tracking.infrastructure.models import TrackingRecord
     from iam.infrastructure.models import Device
+    from assignments.infrastructure.models import ScanStateModel
 
     db.create_tables([TrackingRecord], safe=True)
     db.create_tables([Device], safe=True)
+    db.create_tables([ScanStateModel], safe=True)
 
     db.close()

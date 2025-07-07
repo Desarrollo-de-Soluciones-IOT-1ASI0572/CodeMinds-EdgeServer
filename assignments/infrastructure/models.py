@@ -1,5 +1,6 @@
-from peewee import Model, AutoField, CharField, ForeignKeyField, DateTimeField
+from peewee import Model, AutoField, CharField, ForeignKeyField, DateTimeField, IntegerField
 from shared.infrastructure.database import db
+from datetime import datetime
 
 class StudentModel(Model):
     """ORM model for the 'students' table."""
@@ -30,3 +31,13 @@ class WristbandModel(Model):
     class Meta:
         database = db
         table_name = 'wristbands'
+
+class ScanStateModel(Model):
+    """Model for tracking scan count per wristband."""
+    wristband_id = IntegerField(unique=True)
+    scan_count = IntegerField(default=0)  # Contador de scans
+    last_scan_timestamp = DateTimeField(default=datetime.now)
+    
+    class Meta:
+        database = db
+        table_name = 'scan_states'

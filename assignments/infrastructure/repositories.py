@@ -1,5 +1,6 @@
+from datetime import datetime
 from assignments.domain.entities import Student, Wristband
-from assignments.infrastructure.models import StudentModel, WristbandModel
+from assignments.infrastructure.models import StudentModel, WristbandModel, ScanStateModel
 
 class StudentRepository:
     """Repository for managing student persistence."""
@@ -64,3 +65,57 @@ class WristbandRepository:
             )
         except WristbandModel.DoesNotExist:
             return None
+        
+class ScanStateRepository:
+    """Repository for managing scan states."""
+    
+    def get_scan_count_by_wristband_id(self, wristband_id: int) -> int:
+        """Get scan count by wristband ID."""
+        try:
+            state_model = ScanStateModel.select().where(
+                ScanStateModel.wristband_id == wristband_id
+            ).get()
+            return state_model.scan_count
+        except ScanStateModel.DoesNotExist:
+            return 0  # No scans yet
+    
+    def increment_scan_count(self, wristband_id: int) -> int:
+        """Increment scan count for wristband and return new count."""
+        try:
+            # Try to update existing record
+            existing = ScanStateModel.select().where(
+                ScanStateModel.wristband_id == wristband_id
+            ).first()
+            
+            if existing:
+                new_count = existing.scan_count + 1
+                ScanStateModel.update(
+                    scan_count=new_count,
+                    last_scan_timestamp=datetime.now()
+                ).where(
+                    ScanStateModel.wristband_id == wristband_id
+                ).execute()
+                return new_count
+            else:
+                # Create new record with count = 1
+                state_model = ScanStateModel.create(
+                    wristband_id=wristband_id,
+                    scan_count=1,
+                    last_scan_timestamp=datetime.now()
+                )
+                return 1
+                
+        except Exception as e:
+            print(f"[ERROR] Failed to increment scan count: {e}")
+            raise
+
+    def get_all_scan_states(self):
+        """Get all scan states for debugging."""
+        try:
+            states = ScanStateModel.select()
+            for state in states:
+                print(f"[DEBUG] Wristband {state.wristband_id}: {state.scan_count} scans")
+            return states
+        except Exception as e:
+            print(f"[ERROR] Failed to get scan states: {e}")
+            return []
