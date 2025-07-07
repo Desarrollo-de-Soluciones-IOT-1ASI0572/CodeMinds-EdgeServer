@@ -1,3 +1,9 @@
+import os
+
+# Set environment variables
+os.environ['BACKEND_URL'] = 'http://localhost:8080'
+os.environ['JWT_TOKEN'] = 'eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJwYXJlbnQiLCJpYXQiOjE3NTE4NzU3NDYsImV4cCI6MTc1MjQ4MDU0Nn0.bUSa4QFNFMQdHS64KAV6qjuyBoEvnnx5IYvrSXQ_CzQbeEjtdE0jNS_3-fZPcJnD'
+
 from flask import Flask
 
 from tracking.interfaces.services import tracking_api
@@ -17,4 +23,4 @@ def setup():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    app.run(debug=True, port=5000, host='0.0.0.0')
