@@ -1,38 +1,28 @@
 from flask import Blueprint, request, jsonify
 from iam.application.services import AuthApplicationService
 
-iam_api = Blueprint("iam", __name__, url_prefix="/iam")
+iam_api = Blueprint("iam", __name__)
 auth_service = AuthApplicationService()
 
-@iam_api.route("/register", methods=["POST"])
+@iam_api.route("/api/v1/register", methods=["POST"])
 def register_device():
     data = request.json
-    student_name = data.get("student_name", None)
+    
+    if not data or not data.get("device_id"):
+        return jsonify({"error": "Device ID code is required"}), 400
+    
+    device_id = data.get("device_id")
+    
+    # Verificar si el RFID code ya existe
+    existing_device = auth_service.get_device_by_id(device_id)
+    if existing_device:
+        return jsonify({"error": "Device ID already registered"}), 409
 
-    device = auth_service.register_rfid(student_name)
+    device = auth_service.register_device(device_id)
 
     return jsonify({
-        "rfid_code": device.rfid_code,
+        "device_id": device.device_id,
         "api_key": device.api_key
     }), 201
 
-@iam_api.route("/authenticate", methods=["POST"])
-def authenticate_device():
-    data = request.json
-    rfid_code = data.get("rfid_code")
-    api_key = data.get("api_key")
-
-    device = auth_service.get_device_by_code_and_key(rfid_code, api_key)
-
-    if device:
-        return jsonify({
-            "authenticated": True,
-            "rfid_code": device.rfid_code,
-            "student_name": device.student_name
-        }), 200
-
-    return jsonify({
-        "authenticated": False,
-        "error": "Invalid credentials"
-    }), 401
 
