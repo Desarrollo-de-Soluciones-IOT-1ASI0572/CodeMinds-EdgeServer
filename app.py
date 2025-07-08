@@ -1,8 +1,8 @@
 import os
 
 # Set environment variables
-os.environ['BACKEND_URL'] = 'http://localhost:8080'
-os.environ['JWT_TOKEN'] = 'eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJwYXJlbnQiLCJpYXQiOjE3NTE4NzU3NDYsImV4cCI6MTc1MjQ4MDU0Nn0.bUSa4QFNFMQdHS64KAV6qjuyBoEvnnx5IYvrSXQ_CzQbeEjtdE0jNS_3-fZPcJnD'
+os.environ['BACKEND_URL'] = 'https://edugo-service-de983aa97099.herokuapp.com'
+os.environ['JWT_TOKEN'] = 'eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJwYXJlbnQiLCJpYXQiOjE3NTE5NDEyMTgsImV4cCI6MTc1MjU0NjAxOH0.Bm6Ej3IYgC10U5JWsY7nWhSE2NfE-RJliFGT48QaO4fiVuUyKB74svmn_pw1sdZb'
 
 from flask import Flask
 

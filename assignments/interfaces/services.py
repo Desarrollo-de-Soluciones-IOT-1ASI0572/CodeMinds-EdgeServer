@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from assignments.application.services import ScanProcessingService
 
 scan_api = Blueprint("scan_api", __name__)
-scan_service = ScanProcessingService(token="eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJwYXJlbnQiLCJpYXQiOjE3NTE4Nzc4MjksImV4cCI6MTc1MjQ4MjYyOX0.y9CDqBQYTh36AO_-U2EU-Lk_qDzY72QLC-fpfIagvgwbPPms8TkRc8H-6rs4cPX-")  # Initialize with no token for simplicity
+scan_service = ScanProcessingService(token="eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJwYXJlbnQiLCJpYXQiOjE3NTE5NDEyMTgsImV4cCI6MTc1MjU0NjAxOH0.Bm6Ej3IYgC10U5JWsY7nWhSE2NfE-RJliFGT48QaO4fiVuUyKB74svmn_pw1sdZb")
 
 @scan_api.route("/api/v1/sensor-scans", methods=["POST"])
 def process_scan():

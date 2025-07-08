@@ -1,3 +1,4 @@
+import secrets
 from iam.infrastructure.models import Device
 
 
@@ -5,7 +6,7 @@ class AuthApplicationService:
     def register_device(self, device_id: str):
 
         # Genera api_key única
-        api_key = "secret-api-key"
+        api_key = secrets.token_urlsafe(32)
 
         device = Device.create(
             device_id=device_id,

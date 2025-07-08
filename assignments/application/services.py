@@ -7,7 +7,7 @@ class ScanProcessingService:
     def __init__(self, token=None):
         self.auth_service = AuthApplicationService()
         self.scan_state_repository = ScanStateRepository()
-        self.base_url = "http://localhost:8080/api/v1"
+        self.base_url = "https://edugo-service-de983aa97099.herokuapp.com/api/v1"
         self.headers = {
             "Content-Type": "application/json"
         }
