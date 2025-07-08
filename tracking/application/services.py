@@ -16,7 +16,7 @@ class TrackingRecordApplicationService:
         self.auth_service = AuthApplicationService()
 
         # Initialize HTTP client for backend communication
-        self.backend_url = backend_url or os.getenv('BACKEND_URL', 'http://localhost:8080')
+        self.backend_url = backend_url or os.getenv('BACKEND_URL', 'https://edugo-service-de983aa97099.herokuapp.com')
         self.http_client = BackendHttpClient(self.backend_url, jwt_token)
 
     def authenticate_device(self, device_id: str, api_key: str):

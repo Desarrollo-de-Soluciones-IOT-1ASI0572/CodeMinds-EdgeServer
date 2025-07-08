@@ -5,7 +5,7 @@ import os
 tracking_api = Blueprint("tracking_api", __name__)
 
 # Initialize with backend URL from environment variable
-backend_url = os.getenv('BACKEND_URL', 'http://localhost:8080')
+backend_url = os.getenv('BACKEND_URL', 'https://edugo-service-de983aa97099.herokuapp.com')
 jwt_token = os.getenv('JWT_TOKEN')
 tracking_service = TrackingRecordApplicationService(backend_url, jwt_token)
 
